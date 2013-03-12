@@ -30,12 +30,12 @@ function virtualenv (){
   python "$ROOT_DIR/src/virtualenv-1.7/virtualenv.py" "$@"
 }
 
+cd $BUILD_DIR
+
 ##############################################################
 # python ldap
 # http://bengillies.tiddlyspace.com/bags/bengillies_public/tiddlers/Python-LDAP%20and%20Oracle%20Enterprise%20Linux
 ##############################################################
-
-cd $BUILD_DIR
 
 if [ -d $CACHE_DIR/.python-ldap ]; then
   cp -R $CACHE_DIR/.python-ldap .
@@ -101,7 +101,7 @@ if [ ! -d $BUILD_DIR/.python-ldap/openldap ]; then
   echo "-----> Change directories ..."
   cd openldap-2.4.33
   echo "-----> Configuring ..."
-  ./configure --enable-bdb --enable-crypt --with-tls=openssl --prefix=$BUILD_DIR/.python-ldap/openldap
+  ./configure --enable-bdb --enable-crypt --with-cyrus-sasl=no --with-tls=openssl --prefix=$BUILD_DIR/.python-ldap/openldap
   echo "-----> Installing ..."
   make depend
   make
