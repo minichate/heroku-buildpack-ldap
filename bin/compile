@@ -85,9 +85,9 @@ if [ ! -d $BUILD_DIR/.python-ldap/cyrus-sasl ]; then
 fi
 
 echo "-----> Changing library paths"
-export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:$BUILD_DIR/.python-ldap/db4/lib:/usr/local/ssl/lib"
-export LDFLAGS="-L/usr/local/lib -L$BUILD_DIR/.python-ldap/db4/lib -L/usr/local/ssl/lib"
-export CPPFLAGS="-I/usr/local/include -I$BUILD_DIR/.python-ldap/db4/include -I/usr/local/ssl/include"
+export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:$BUILD_DIR/.python-ldap/db4/lib:$BUILD_DIR/.python-ldap/cyrus-sasl/lib:/usr/local/ssl/lib"
+export LDFLAGS="-L/usr/local/lib -L$BUILD_DIR/.python-ldap/db4/lib -L$BUILD_DIR/.python-ldap/cyrus-sasl/lib -L/usr/local/ssl/lib"
+export CPPFLAGS="-I/usr/local/include -I$BUILD_DIR/.python-ldap/db4/include -I$BUILD_DIR/.python-ldap/cyrus-sasl/include -I/usr/local/ssl/include"
 echo $LD_LIBRARY_PATH
 echo $LDFLAGS
 echo $CPPFLAGS
