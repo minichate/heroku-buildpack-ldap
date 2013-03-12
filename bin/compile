@@ -89,7 +89,7 @@ if [ ! -d $BUILD_DIR/.python-ldap/openldap ]; then
   echo "-----> Change directories ..."
   cd openldap-2.4.33
   echo "-----> Configuring ..."
-  ./configure --enable-crypt --with-tls=openssl --prefix=$BUILD_DIR/.python-ldap/openldap
+  ./configure --prefix=$BUILD_DIR/.python-ldap/openldap
   echo "-----> Installing ..."
   make depend
   make
