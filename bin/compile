@@ -87,7 +87,7 @@ fi
 echo "-----> Changing library paths"
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:$BUILD_DIR/.python-ldap/db4/lib:$BUILD_DIR/.python-ldap/cyrus-sasl/lib:/usr/local/ssl/lib"
 export LDFLAGS="-L/usr/local/lib -L$BUILD_DIR/.python-ldap/db4/lib -L$BUILD_DIR/.python-ldap/cyrus-sasl/lib -L/usr/local/ssl/lib"
-export CPPFLAGS="-I/usr/local/include -I$BUILD_DIR/.python-ldap/db4/include -I$BUILD_DIR/.python-ldap/cyrus-sasl/include -I/usr/local/ssl/include"
+export CPPFLAGS="-I/usr/local/include -I$BUILD_DIR/.python-ldap/db4/include -I$BUILD_DIR/.python-ldap/cyrus-sasl/include/sasl -I/usr/local/ssl/include"
 echo $LD_LIBRARY_PATH
 echo $LDFLAGS
 echo $CPPFLAGS
@@ -174,11 +174,7 @@ fi
 
 export LD_LIBRARY_PATH="/usr/lib:/usr/local/lib:$BUILD_DIR/.python-ldap/openldap/lib:$BUILD_DIR/.python-ldap/cyrus-sasl/lib:/usr/local/ssl/lib"
 export LDFLAGS="-L/usr/local/lib -L$BUILD_DIR/.python-ldap/openldap/lib -L$BUILD_DIR/.python-ldap/cyrus-sasl/lib -L/usr/local/ssl/lib"
-export CPPFLAGS="-I/usr/local/include -I$BUILD_DIR/.python-ldap/openldap/include -I$BUILD_DIR/.python-ldap/cyrus-sasl/include -I/usr/local/ssl/include"
-
-# Install dependencies.
-echo "-----> Installing dependencies using pip version $(pip --version | awk '{print $2}')"
-pip install --use-mirrors -r requirements.txt --src ./.heroku/src | indent
+export CPPFLAGS="-I/usr/local/include -I$BUILD_DIR/.python-ldap/openldap/include -I$BUILD_DIR/.python-ldap/cyrus-sasl/include/sasl -I/usr/local/ssl/include"
 
 #####
 
@@ -186,12 +182,16 @@ pip install -U --no-install python-ldap
 cd build/python-ldap
 cat setup.cfg
 sed "s,library_dirs = \(.*\),library_dirs = $BUILD_DIR/.python-ldap/openldap/lib $BUILD_DIR/.python-ldap/cyrus-sasl/lib \1,g" setup.cfg > setup.cfg
-sed "s,include_dirs = \(.*\),include_dirs = $BUILD_DIR/.python-ldap/openldap/include $BUILD_DIR/.python-ldap/cyrus-sasl/include \1,g" setup.cfg > setup.cfg
+sed "s,include_dirs = \(.*\),include_dirs = $BUILD_DIR/.python-ldap/openldap/include $BUILD_DIR/.python-ldap/cyrus-sasl/include/sasl \1,g" setup.cfg > setup.cfg
 cat setup.cfg
 pip install -U .
 cd ../..
 
 ######
+
+# Install dependencies.
+echo "-----> Installing dependencies using pip version $(pip --version | awk '{print $2}')"
+pip install --use-mirrors -r requirements.txt --src ./.heroku/src | indent
 
 # Django support.
 if [ "$NAME" = "Python/Django" ] && ! [ "$DISABLE_INJECTION" ]; then
